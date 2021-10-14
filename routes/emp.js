@@ -1,7 +1,13 @@
 const express=require('express');
+var cors = require('cors')
+var corsOptions = {
+    origin: 'http://localhost:8080/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 
 //For routing purpose
 const router=express.Router();
+router.use(cors())
 var data=require('../datasource.js');
  var constants=require('../shared/common.js');
 
@@ -23,7 +29,7 @@ router.get("/",(req,res)=>{
     
 })
 //get Data by id
-router.get("/:id",(req,res)=>{
+router.get("/:id",cors(corsOptions),(req,res)=>{
     let response=constants.api_response;
     try{
         var id=req.params.id;
