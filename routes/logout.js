@@ -39,7 +39,7 @@ router.put("/",verifyToken,async(req,res)=>{
                 params["Token"]=null;
                 params["is_login"]=false;
                  data.updateData('users',params,'User_Id',function(err,data){
-                    response.status==constants.SUCCESS;
+                    response.status=constants.SUCCESS;
                     response.data=data;
                     res.send(response);
             })
@@ -57,7 +57,6 @@ function verifyToken(req,res,next){
       const bearer=bearHeader.split(' ');
       const bearerToken=bearer[1];
       req.token=bearerToken;
-      console.log(bearerToken)
       next();
     }else{
      res.sendStatus(403)
