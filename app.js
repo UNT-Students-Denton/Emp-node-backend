@@ -8,8 +8,12 @@ var data=require('./datasource');
 app.use(express.json())
 //routing
 const empRouter=require("./routes/emp");
+const loginRouter=require("./routes/login");
+const signOutRouter=require("./routes/logout");
 app.use('/emp',empRouter);
 app.use('/emp/:id',empRouter);
+app.use('/logout',signOutRouter);
+app.use('/login',loginRouter);
 
 
 

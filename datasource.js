@@ -4,7 +4,7 @@ var pool=mySql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'Kousik@123',
-    database: 'example'
+    database: 'sepro'
 });
 pool.on('acquire', function (connection) {
     console.log('Connection %d acquired', connection.threadId);
@@ -20,6 +20,16 @@ exports.getData=function getData(tableName,callback){
     }
      getQueryStructure(query, function(err,data){
       callback(err,data)
+ });
+}
+//getData by key
+exports.getDataByKey=function getDataByKey(tableName,id,key,callback){
+    let query;
+    if(tableName && key){
+         query=`SELECT * from ${tableName} where ${key}="${id}"`;
+    }
+ getQueryStructure(query,function(err,data){
+     callback(err,data);
  });
 }
 
@@ -54,13 +64,16 @@ exports.insertData=function insertData(tableName,params,callback){
  });  
 }
     //update a row
-exports.updateData=function updateData(tableName,params,callback){
+exports.updateData=function updateData(tableName,params,whereKey,callback){
     var columns=Object.keys(params);
     var values=Object.values(params);
     let query;
 
-    if(tableName){
+    if(tableName && !whereKey){
         query=`UPDATE ${tableName} SET ${setUpdateColumns(columns,values)} Where emp_id=${params['emp_id']}`
+    } else if(tableName && whereKey){
+       let id= params[whereKey];
+        query=`UPDATE ${tableName} SET ${setUpdateColumns(columns,values)} Where ${whereKey}=${id}`
     }else{
         query=`UPDATE employee SET ${setUpdateColumns(columns,values)} Where emp_id=${params['emp_id']}`
     }
@@ -109,15 +122,22 @@ function setValues(values){
 function setColumns(columns){
   var totalColumns="";
   columns.forEach((column,columnIndex) => {
-    totalColumns=totalColumns+`"${column}"`+(columnIndex!==columns.length-1?',':''); 
+    totalColumns=totalColumns+column+(columnIndex!==columns.length-1?',':''); 
   });
  return totalColumns;
 }
 //set update Columns
 function setUpdateColumns(columns,values){
+    console.log(values)
     columnStruct="";
     columns.forEach((column,columnIndex)=>{
-        columnStruct=columnStruct+`${column}="${values[columnIndex]}"`+(columnIndex!==columns.length-1?',':'')
+        let type=typeof(values[columnIndex]);
+        if(type=="string"){
+            columnStruct=columnStruct+`${column}="${values[columnIndex]}"`+(columnIndex!==columns.length-1?',':'')
+        }else{
+            columnStruct=columnStruct+`${column}=${values[columnIndex]}`+(columnIndex!==columns.length-1?',':'')
+
+        }
     });
     return columnStruct;
 }
