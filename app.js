@@ -11,13 +11,15 @@ const empRouter=require("./routes/emp");
 const loginRouter=require("./routes/login");
 const signOutRouter=require("./routes/logout");
 const departmentRouter=require("./routes/department");
+const questionsRouter=require("./routes/questions");
 app.use('/emp',empRouter);
 app.use('/emp/:id',empRouter);
 app.use('/logout',signOutRouter);
 app.use('/login',loginRouter);
 app.use('/department',departmentRouter);
+app.use('/questions',questionsRouter);
 
 
-app.listen(8080,function(){
+app.listen(9040,function(){
     console.log("Server started");
 });
