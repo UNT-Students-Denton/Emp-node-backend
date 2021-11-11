@@ -20,6 +20,6 @@ app.use('/department',departmentRouter);
 app.use('/questions',questionsRouter);
 
 
-app.listen(9040,function(){
+app.listen(8080,function(){
     console.log("Server started");
 });

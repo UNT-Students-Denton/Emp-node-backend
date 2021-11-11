@@ -105,9 +105,17 @@ router.put("/",async(req,res)=>{
     try{
         await data.updateData('department',params,'Dept_Id',function(err,data_){
             var args={}
+            if(req.body["transfer_department"]==null){
             args["Emp_Id"]=req.body["Dept_Id"];
             args["Training_Status"]="In-Complete";
             args["Quiz_score"]=0;
+            args["transfer_department"]=null;
+            args["is_transfer_request"]=0;
+            }else{
+            args["Emp_Id"]=req.body["Dept_Id"];
+            args["Training_Status"]="In-Complete";
+            args["Quiz_score"]=0;
+            }
             data.updateData("employee",args,'Emp_Id',function(err,data){
                 response.status=constants.SUCCESS;
                 response.data="Successfully transfered the employee";

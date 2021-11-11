@@ -95,6 +95,7 @@ router.post("/",(req,res)=>{
 //update row in a table
 router.put("/",async(req,res)=>{
     var params=req.body;
+    console.log(params)
     let response=constants.api_response;
     try{
         await data.updateData('employee',params,'Emp_Id',function(err,data){

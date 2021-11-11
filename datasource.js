@@ -3,7 +3,7 @@ var pool=mySql.createPool({
     connectionLimit : 100, //important
     host: 'localhost',
     user: 'root',
-    password: 'root123',
+    password: 'Kousik@123',
     database: 'sepro'
 });
 pool.on('acquire', function (connection) {
@@ -16,8 +16,7 @@ exports.getData=function getData(tableName,callback){
     if(tableName){
         query=`SELECT * from ${tableName}`;
     }else{ 
-         query=`SELECT * from employee`;
-    }
+        query=`select * from employee INNER JOIN department ON employee.Emp_Id=department.Dept_Id`;    }
      getQueryStructure(query, function(err,data){
       callback(err,data)
  });
@@ -39,8 +38,8 @@ exports.getDataById=function getDataById(tableName,id,callback){
     if(tableName){
          query=`SELECT * from ${tableName} where emp_id=${id}`;
     }else{
-         query=`SELECT * from employee where emp_id=${id}`;
-    }
+        query=`select * from employee INNER JOIN department ON employee.Emp_Id=department.Dept_Id
+        where emp_id=${id}`;    }
  getQueryStructure(query,function(err,data){
      callback(err,data);
  });
