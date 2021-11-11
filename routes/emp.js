@@ -97,10 +97,15 @@ router.put("/",async(req,res)=>{
     var params=req.body;
     let response=constants.api_response;
     try{
-        await data.updateData(null,params,function(err,data){
-        console.log(params)
-            response.status==constants.SUCCESS;
-            response.data=data;
+        await data.updateData('employee',params,'Emp_Id',function(err,data){
+            response.status=constants.SUCCESS;
+            if(req.body["Training_Status"]){
+                response.data="Status Changed";
+
+            }else{
+                response.data=data;
+
+            }
             res.send(response);
     })
     }catch(err){

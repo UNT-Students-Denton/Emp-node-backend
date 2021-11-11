@@ -94,13 +94,25 @@ router.post("/",(req,res)=>{
 
 //update row in a table
 router.put("/",async(req,res)=>{
-    var params=req.body;
+    var params={};
+    if(req.body.isTransfer){
+      params["Dept_Id"]=req.body["Dept_Id"];
+      params["Dept_Name"]=req.body["Dept_Name"];
+    }else{
+        params=req.body;
+    }
     let response=constants.api_response;
     try{
-        await data.updateData('department',params,'Dept_Id',function(err,data){
-            response.status==constants.SUCCESS;
-            response.data="Successfully transfered the employee";
-            res.send(response);
+        await data.updateData('department',params,'Dept_Id',function(err,data_){
+            var args={}
+            args["Emp_Id"]=req.body["Dept_Id"];
+            args["Training_Status"]="In-Complete";
+            args["Quiz_score"]=0;
+            data.updateData("employee",args,'Emp_Id',function(err,data){
+                response.status=constants.SUCCESS;
+                response.data="Successfully transfered the employee";
+                res.send(response);
+            });
     })
     }catch(err){
     response.status=constants.FAILURE;
