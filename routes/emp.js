@@ -31,9 +31,11 @@ router.get("/",verifyToken,(req,res)=>{
          res.sendStatus(403);
         }else{
             try{
+                console.log(req.query)
                 if(req 
-                    && req.query.emp_id){
-                    var id=req.query.emp_id;
+                    && req.query.Emp_Id){
+                    var id=req.query.Emp_Id;
+                    console.log("kousik")
                     data.getDataById(null,id,function(err,data){
                         response={};
                         response.status=constants.SUCCESS;
@@ -58,23 +60,23 @@ router.get("/",verifyToken,(req,res)=>{
     }) 
 })
 //get Data by id
-router.get("/:id",cors(corsOptions),(req,res)=>{
-    let response=constants.api_response;
-    try{
-        var id=req.params.id;
-        data.getDataById(null,id,function(err,data){
-            response.status=constants.SUCCESS;
-            response.data=data;
-            res.send(response)
-    });
+// router.get("/:id",cors(corsOptions),(req,res)=>{
+//     let response=constants.api_response;
+//     try{
+//         var id=req.params.id;
+//         data.getDataById(null,id,function(err,data){
+//             response.status=constants.SUCCESS;
+//             response.data=data;
+//             res.send(response)
+//     });  
        
-    }catch(err){
-        response.status=constants.FAILURE;
-        response.data=err.message;
-        res.send(response)
-    }
+//     }catch(err){
+//         response.status=constants.FAILURE;
+//         response.data=err.message;
+//         res.send(response)
+//     }
     
-})
+// })
 //Insert new row in a table
 router.post("/",(req,res)=>{
     var params=req.body;

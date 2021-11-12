@@ -36,10 +36,10 @@ exports.getDataByKey=function getDataByKey(tableName,id,key,callback){
 exports.getDataById=function getDataById(tableName,id,callback){
     let query;
     if(tableName){
-         query=`SELECT * from ${tableName} where emp_id=${id}`;
+         query=`SELECT * from ${tableName} where Emp_id=${id}`;
     }else{
         query=`select * from employee INNER JOIN department ON employee.Emp_Id=department.Dept_Id
-        where emp_id=${id}`;    }
+        where Emp_Id=${id}`;    }
  getQueryStructure(query,function(err,data){
      callback(err,data);
  });
