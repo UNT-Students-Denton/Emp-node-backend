@@ -111,10 +111,12 @@ router.put("/",async(req,res)=>{
             args["Quiz_score"]=0;
             args["transfer_department"]=null;
             args["is_transfer_request"]=0;
+            args["Start_Date"]=null;
             }else{
             args["Emp_Id"]=req.body["Dept_Id"];
             args["Training_Status"]="In-Complete";
             args["Quiz_score"]=0;
+            args["Start_Date"]=null;
             }
             data.updateData("employee",args,'Emp_Id',function(err,data){
                 response.status=constants.SUCCESS;
