@@ -31,15 +31,13 @@ router.get("/",verifyToken,(req,res)=>{
          res.sendStatus(403);
         }else{
             try{
-                console.log(req.query)
                 if(req 
-                    && req.query.Emp_Id){
-                    var id=req.query.Emp_Id;
-                    console.log("kousik")
-                    data.getDataById(null,id,function(err,data){
+                    && req.query.Dept_Id){
+                    var id=req.query.Dept_Id;
+                    data.getDataByKey('department',id,'Dept_Id',function(err,data){
                         response={};
                         response.status=constants.SUCCESS;
-                        response.data=data;
+                        response.data=data[0];
                         res.send(response)
                 });
                 }else{
@@ -60,23 +58,23 @@ router.get("/",verifyToken,(req,res)=>{
     }) 
 })
 //get Data by id
-// router.get("/:id",cors(corsOptions),(req,res)=>{
-//     let response=constants.api_response;
-//     try{
-//         var id=req.params.id;
-//         data.getDataById(null,id,function(err,data){
-//             response.status=constants.SUCCESS;
-//             response.data=data;
-//             res.send(response)
-//     });  
+router.get("/:id",cors(corsOptions),(req,res)=>{
+    let response=constants.api_response;
+    try{
+        var id=req.params.id;
+        data.getDataById(null,id,function(err,data){
+            response.status=constants.SUCCESS;
+            response.data=data;
+            res.send(response)
+    });
        
-//     }catch(err){
-//         response.status=constants.FAILURE;
-//         response.data=err.message;
-//         res.send(response)
-//     }
+    }catch(err){
+        response.status=constants.FAILURE;
+        response.data=err.message;
+        res.send(response)
+    }
     
-// })
+})
 //Insert new row in a table
 router.post("/",(req,res)=>{
     var params=req.body;
@@ -96,20 +94,35 @@ router.post("/",(req,res)=>{
 
 //update row in a table
 router.put("/",async(req,res)=>{
-    var params=req.body;
-    console.log(params)
+    var params={};
+    if(req.body.isTransfer){
+      params["Dept_Id"]=req.body["Dept_Id"];
+      params["User_Id"]=req.body["User_Id"];
+    }else{
+        params=req.body;
+    }
     let response=constants.api_response;
     try{
-        await data.updateData('employee',params,'Emp_Id',function(err,data){
-            response.status=constants.SUCCESS;
-            if(req.body["Training_Status"]){
-                response.data="Status Changed";
-
+        await data.updateData('users',params,'User_Id',function(err,data_){
+            var args={}
+            if(req.body["transfer_department"]==null){
+            args["Emp_Id"]=req.body["User_Id"];
+            args["Training_Status"]="Not Completed";
+            args["Quiz_score"]=0;
+            args["transfer_department"]=null;
+            args["is_transfer_request"]=0;
+            args["Start_Date"]=null;
             }else{
-                response.data=data;
-
+            args["Emp_Id"]=req.body["Dept_Id"];
+            args["Training_Status"]="In-Complete";
+            args["Quiz_score"]=0;
+            args["Start_Date"]=null;
             }
-            res.send(response);
+            data.updateData("employee",args,'Emp_Id',function(err,data){
+                response.status=constants.SUCCESS;
+                response.data="Successfully transfered the employee";
+                res.send(response);
+            });
     })
     }catch(err){
     response.status=constants.FAILURE;

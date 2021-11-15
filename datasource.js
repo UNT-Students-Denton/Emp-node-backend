@@ -16,7 +16,7 @@ exports.getData=function getData(tableName,callback){
     if(tableName){
         query=`SELECT * from ${tableName}`;
     }else{ 
-        query=`select * from employee INNER JOIN department ON employee.Emp_Id=department.Dept_Id`;    }
+        query=`select * from employee INNER JOIN users ON employee.Emp_Id=users.User_Id`;    }
      getQueryStructure(query, function(err,data){
       callback(err,data)
  });
@@ -38,8 +38,9 @@ exports.getDataById=function getDataById(tableName,id,callback){
     if(tableName){
          query=`SELECT * from ${tableName} where Emp_id=${id}`;
     }else{
-        query=`select * from employee INNER JOIN department ON employee.Emp_Id=department.Dept_Id
-        where Emp_Id=${id}`;    }
+        query=`select * from employee INNER JOIN users ON employee.Emp_Id=users.User_Id
+        where Emp_Id=${id}`;
+    console.log(query)    }
  getQueryStructure(query,function(err,data){
      callback(err,data);
  });
