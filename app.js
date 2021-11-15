@@ -21,6 +21,7 @@ app.use('/department',departmentRouter);
 app.use('/questions',questionsRouter);
 app.use('/user',userRouter);
 
+//port setting
 app.listen(8080,function(){
     console.log("Server started");
 });
