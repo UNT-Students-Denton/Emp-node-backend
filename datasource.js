@@ -3,7 +3,7 @@ var pool=mySql.createPool({
     connectionLimit : 100, //important
     host: 'localhost',
     user: 'root',
-    password: 'Kousik@123',
+    password: 'root123',
     database: 'sepro'
 });
 pool.on('acquire', function (connection) {

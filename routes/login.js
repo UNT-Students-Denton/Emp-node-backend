@@ -44,7 +44,9 @@ router.post("/",cors(corsOptions),(req,res)=>{
                 res.send(response);
               } })
            }else{
+            response={};
             response.status=constants.SUCCESS;
+            response.data={};
             res.send(response);
            } 
        });
@@ -56,7 +58,14 @@ router.post("/",cors(corsOptions),(req,res)=>{
 //valiate login user
 function ValidateUser(params,result){
             data.getDataByKey("users",params.user_name,'user_name',function(err,data){ 
+            if(data.length>0 &&
+                params.user_name==data[0]['user_name'] &&
+                 params.password==data[0]['passwords'] ){    
             result(data)
+                }else{
+                    console.log(data)
+                    result([]);
+                }
         });
 }
 //insert token data
