@@ -1,8 +1,11 @@
 # Emp-node-backend
 
-# download latest node js from https://nodejs.org/en/download/
+# required
+download latest node js from https://nodejs.org/en/download/
 
-#  excute npm install -> for updating node modules->all the libraries covered here
+## Development server
 
-# to start the server run the commpand nodemon run app
+Run `nodemon run app` for a dev server. Navigate to `http://localhost:8080/`. 
 
+## for node modules
+ npm install -> for updating node modules->all the libraries covered here
