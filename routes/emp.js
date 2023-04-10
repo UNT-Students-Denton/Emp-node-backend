@@ -35,7 +35,7 @@ router.get("/",verifyToken,(req,res)=>{
                 if(req 
                     && req.query.Emp_Id){
                     var id=req.query.Emp_Id;
-                    console.log("kousik")
+                    console.log("kousik",req.query)
                     data.getDataById(null,id,function(err,data){
                         response={};
                         response.status=constants.SUCCESS;
